@@ -1,0 +1,68 @@
+services:
+  app:
+    build: .
+    ports:
+      - "${APP_PORT:-5001}:5000"
+    volumes:
+      - ./config:/app/config:ro
+      - ./data:/app/data
+      - ./reports:/app/reports
+    environment:
+      - JENKINS_URL
+      - JENKINS_TOKEN
+      - SMTP_PASSWORD
+    command: ["python", "run.py", "monitor"]
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on:
+      - app
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+
+  influxdb:
+    image: influxdb:2
+    ports:
+      - "8086:8086"
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=adminpassword
+      - DOCKER_INFLUXDB_INIT_ORG=my-org
+      - DOCKER_INFLUXDB_INIT_BUCKET=infra
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+
+  # Optional Jenkins controller for local testing.
+  # Start with: docker compose --profile jenkins up -d
+  jenkins:
+    profiles:
+      - jenkins
+    image: jenkins/jenkins:lts-jdk17
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    environment:
+      - JENKINS_OPTS=--httpPort=8080
+
+volumes:
+  grafana_data:
+  influxdb_data:
+  jenkins_home:

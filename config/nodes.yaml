@@ -1,0 +1,31 @@
+nodes:
+  - name: local
+    host: localhost
+    type: local
+    tags: [local]
+
+#  - name: jenkins-build-01
+#    host: 10.0.0.11
+#    type: ssh
+#    ssh_user: jenkins
+#    ssh_key: ~/.ssh/id_rsa
+#    jenkins_node_name: jenkins-build-01
+#    tags: [jenkins, linux]
+#    services: [jenkins, docker]
+#    allow_restart: false
+#
+#  - name: vm-app-01
+#    host: 10.0.0.21
+#    type: ssh
+#    ssh_user: ubuntu
+#    ssh_key: ~/.ssh/id_rsa
+#    tags: [vm, app]
+#    services: [app, nginx]
+#    allow_restart: false
+#
+#  - name: k8s-worker-pod
+#    host: placeholder
+#    type: k8s
+#    namespace: default
+#    pod_name: worker-0
+#    tags: [k8s]

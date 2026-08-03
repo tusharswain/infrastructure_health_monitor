@@ -1,0 +1,13 @@
+nodes:
+  - name: my-host
+    host: localhost
+    type: local
+    tags: [local]
+
+  - name: jenkins-test-node
+    host: localhost
+    type: local
+    jenkins_node_name: "Built-In Node"
+    tags: [jenkins]
+    services: [jenkins]
+    allow_restart: false

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 20px; }
+    h1 { font-size: 24px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 13px; }
+    th { background: #f5f5f5; }
+    .status-green { background: #d4edda; }
+    .status-yellow { background: #fff3cd; }
+    .status-red { background: #f8d7da; }
+    .overall { display: inline-block; padding: 8px 16px; border-radius: 4px; font-weight: bold; }
+    ul { margin: 4px 0; padding-left: 18px; }
+  </style>
+</head>
+<body>
+  <h1>Infrastructure Health Report</h1>
+  <p>Overall status: <span class="overall status-{{ overall_class }}">{{ overall_status }}</span></p>
+
+  <h2>Nodes</h2>
+  <table>
+    <tr>
+      <th>Node</th>
+      <th>Status</th>
+      <th>CPU %</th>
+      <th>Mem %</th>
+      <th>Disk %</th>
+      <th>Load</th>
+      <th>Swap %</th>
+      <th>Zombies</th>
+      <th>Jenkins Link</th>
+    </tr>
+    {% for n in nodes %}
+    <tr class="status-{{ n.status_class }}">
+      <td>{{ n.name }}</td>
+      <td>{{ n.status }}</td>
+      <td>{{ n.cpu }}</td>
+      <td>{{ n.mem }}</td>
+      <td>{{ n.disk }}</td>
+      <td>{{ n.load }}</td>
+      <td>{{ n.swap }}</td>
+      <td>{{ n.zombies }}</td>
+      <td>{% if n.link %}<a href="{{ n.link }}">Open</a>{% else %}-{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <h2>Alerts</h2>
+  {% if alerts %}
+  <table>
+    <tr>
+      <th>Node</th>
+      <th>Severity</th>
+      <th>Metric</th>
+      <th>Value</th>
+      <th>Threshold</th>
+      <th>Message</th>
+      <th>Fix suggestions</th>
+    </tr>
+    {% for a in alerts %}
+    <tr>
+      <td>{{ a.node }}</td>
+      <td class="status-{{ a.status_class }}">{{ a.severity }}</td>
+      <td>{{ a.metric }}</td>
+      <td>{{ a.value }}</td>
+      <td>{{ a.threshold }}</td>
+      <td>{{ a.message }}</td>
+      <td>
+        <ul>
+          {% for s in a.suggestions %}
+          <li>{{ s }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>No active alerts.</p>
+  {% endif %}
+</body>
+</html>
