@@ -2,7 +2,7 @@
 
 A Python service that continuously monitors **Jenkins nodes, Linux VMs, bare-metal servers, and Kubernetes pods**, detects sustained health issues, classifies severity, auto-remediates safe problems, and sends rich notifications and daily trend reports.
 
-It demonstrates senior-level skills: API integration (Jenkins), auto-remediation, trend analysis, sliding-window alerting, pluggable storage, and a live web UI with Prometheus metrics.
+It demonstrates: API integration (Jenkins), auto-remediation, trend analysis, sliding-window alerting, pluggable storage, and a live web UI with Prometheus metrics.
 
 ---
 
@@ -287,13 +287,3 @@ The test settings use `config/nodes.test.yaml`, where the monitored `jenkins-tes
 - Remediation is **dry-run** by default.
 - Service restarts require `allow_restart: true` on the node **and** the service in the global `whitelist`.
 - SSH authentication uses keys or passwords from config, never hardcoded.
-
----
-
-## Why this shows senior skills
-
-- **API integration**: Jenkins REST API with crumb/CSRF handling.
-- **Sustained alerting**: Sliding window prevents flapping from single spikes.
-- **Auto-remediation**: Policy-driven actions with dry-run and audit logging.
-- **Context-aware suggestions**: Every alert includes specific, actionable fixes.
-- **Production-ready patterns**: Pydantic config validation, structured logging, tests, Docker, Prometheus.
