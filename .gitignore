@@ -16,3 +16,6 @@ dist/
 prometheus_data/
 influxdb_data/
 grafana_data/
+
+# Local helper notes
+recreateenv.txt

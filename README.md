@@ -1,5 +1,7 @@
 # Infrastructure Health Monitor with Auto-Remediation Engine
 
+[![CI](https://github.com/tusharswain/infrastructure_health_monitor/actions/workflows/ci.yml/badge.svg)](https://github.com/tusharswain/infrastructure_health_monitor/actions/workflows/ci.yml)
+
 A Python service that continuously monitors **Jenkins nodes, Linux VMs, bare-metal servers, and Kubernetes pods**, detects sustained health issues, classifies severity, auto-remediates safe problems, and sends rich notifications and daily trend reports.
 
 It demonstrates: API integration (Jenkins), auto-remediation, trend analysis, sliding-window alerting, pluggable storage, and a live web UI with Prometheus metrics.

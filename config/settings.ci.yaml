@@ -1,0 +1,67 @@
+log_level: INFO
+interval: 10
+
+jenkins:
+  url: http://localhost:8080
+  user: ci
+  verify_ssl: false
+
+storage:
+  type: csv
+  path: data/ci_metrics
+
+notifications:
+  email:
+    enabled: false
+    on_severity: [CRITICAL, EMERGENCY]
+
+remediation:
+  enabled: false
+  dry_run: true
+  whitelist: []
+  max_daily_restarts: 0
+
+thresholds:
+  - metric: cpu_percent
+    warning: 70
+    critical: 85
+    emergency: 95
+    window_size: 3
+    window_type: consecutive
+  - metric: memory_percent
+    warning: 75
+    critical: 90
+    emergency: 95
+    window_size: 3
+    window_type: average
+  - metric: disk_percent
+    warning: 80
+    critical: 90
+    emergency: 95
+    window_size: 2
+    window_type: consecutive
+  - metric: load_1
+    warning: 4.0
+    critical: 8.0
+    emergency: 15.0
+    window_size: 3
+    window_type: average
+  - metric: swap_percent
+    warning: 30
+    critical: 60
+    emergency: 90
+    window_size: 3
+    window_type: consecutive
+  - metric: zombie_count
+    warning: 5
+    critical: 20
+    emergency: 50
+    window_size: 2
+    window_type: consecutive
+
+web:
+  enabled: false
+  host: 127.0.0.1
+  port: 5000
+
+nodes: config/nodes.ci.yaml
